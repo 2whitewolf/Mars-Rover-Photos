@@ -33,26 +33,22 @@ class RoverPhotosViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .systemBlue
+   
  
     
       view.addSubviews(collectionView)
       collectionView.snp.makeConstraints{
-              $0.leading.trailing.bottom.top.equalToSuperview()
- 
+        $0.leading.trailing.bottom.top.equalToSuperview()
       }
+      
       self.collectionView.dataSource = self
       self.collectionView.delegate = self
 
-      
       fetchCuriosity()
-
-
-
-
   }
 
   private func fetchCuriosity() {
-    APICaller.shared.getCuriosityRovers{ [weak self] result in
+    APICaller.shared.getOpportunityRovers{ [weak self] result in
       DispatchQueue.main.async { [self] in
         switch result {
         case .success(let model):
@@ -82,8 +78,8 @@ extension RoverPhotosViewController: UICollectionViewDelegate, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        if let curiosity = roverPhoto?.photos[indexPath.row].imgSrc {
-            cell.setup(with: curiosity)
+        if let curiosity = roverPhoto?.photos[indexPath.row]{
+            cell.setup(with: RoverViewModel(roverId: curiosity.id, roverImg: curiosity.imgSrc, roverDate: curiosity.earthDate))
         }
     return cell
     }
