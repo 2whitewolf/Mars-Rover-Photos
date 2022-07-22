@@ -17,3 +17,20 @@ import Foundation
 struct RoverPhoto: Codable {
     let photos: [Photo]
 }
+
+enum ScreenType{
+    case curiosity
+    case opportunity
+    case spirit
+    
+    var roverType: String{
+        switch self {
+        case .curiosity:
+            return "Curiosity"
+        case .opportunity:
+            return "Opportunity"
+        case .spirit:
+            return "Spirit"
+        }
+    }
+}

@@ -29,10 +29,17 @@ class RoverPhotosViewController: UIViewController {
     collection.register(TestCell.self, forCellWithReuseIdentifier: TestCell.identifier)
     return collection
   }()
+    
+    convenience init(photos: RoverPhoto,rootOption option: ScreenType){
+        self.init()
+        self.roverPhoto = photos
+        self.collectionView.reloadData()
+        title = "\(option.roverType)"
+    }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBlue
+    view.backgroundColor = .white
    
  
     
@@ -44,24 +51,9 @@ class RoverPhotosViewController: UIViewController {
       self.collectionView.dataSource = self
       self.collectionView.delegate = self
 
-      fetchCuriosity()
   }
 
-  private func fetchCuriosity() {
-    APICaller.shared.getOpportunityRovers{ [weak self] result in
-      DispatchQueue.main.async { [self] in
-        switch result {
-        case .success(let model):
-            self?.roverPhoto = model
-            self?.collectionView.reloadData()
 
-        case .failure(let error):
-          print("Parsing Error: \(error.localizedDescription)")
-//          self?.failedToGetProfile()
-        }
-      }
-    }
-  }
 }
 
 
