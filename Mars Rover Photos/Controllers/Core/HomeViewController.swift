@@ -184,18 +184,18 @@ extension HomeViewController:  UICollectionViewDelegate, UICollectionViewDataSou
 
 
 extension HomeViewController {
-  func ifSaved() -> Bool {
-    return false
-  }
-  func saveImages(photos : RoverPhoto) {
-    if !ifSaved() {
-      //            if let photos
-      for i in photos.photos.prefix(100) {
-
-        LocalFileManager.shared.saveImage(image: self.load(url: i.imgSrc), name: "\(i.id)")
-      }
-    }
-  }
+//  func ifSaved() -> Bool {
+//    return false
+//  }
+//  func saveImages(photos : RoverPhoto) {
+//    if !ifSaved() {
+//      //            if let photos
+//      for i in photos.photos.prefix(100) {
+//
+//        LocalFileManager.shared.saveImage(image: self.load(url: i.imgSrc), name: "\(i.id)")
+//      }
+//    }
+//  }
 
   func load(url: String) -> UIImage {
     if let url = URL(string: url) {
