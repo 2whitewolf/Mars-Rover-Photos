@@ -21,6 +21,8 @@
 		43B888AF288931470034DFE3 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B888AE288931470034DFE3 /* Photo.swift */; };
 		43B888B8288959E40034DFE3 /* RoverPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B888B7288959E40034DFE3 /* RoverPhotoViewController.swift */; };
 		43B888BA28897F190034DFE3 /* TestCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B888B928897F190034DFE3 /* TestCell.swift */; };
+		43FAF060288C2B5200DB64C9 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FAF05F288C2B5200DB64C9 /* DataController.swift */; };
+		43FAF063288C2B7900DB64C9 /* Main.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43FAF061288C2B7900DB64C9 /* Main.xcdatamodeld */; };
 		4E3B515D820056A364234284 /* Pods_Mars_Rover_Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9219D66308657245E2A5FA /* Pods_Mars_Rover_Photos.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +46,8 @@
 		43B888AE288931470034DFE3 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		43B888B7288959E40034DFE3 /* RoverPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoverPhotoViewController.swift; sourceTree = "<group>"; };
 		43B888B928897F190034DFE3 /* TestCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCell.swift; sourceTree = "<group>"; };
+		43FAF05F288C2B5200DB64C9 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		43FAF062288C2B7900DB64C9 /* Main.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Main.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,8 @@
 			children = (
 				43B888A628892BCB0034DFE3 /* APICaller.swift */,
 				2ED94BBB288ADEB500A8B7D0 /* LocalFileManager.swift */,
+				43FAF05F288C2B5200DB64C9 /* DataController.swift */,
+				43FAF061288C2B7900DB64C9 /* Main.xcdatamodeld */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -281,6 +287,7 @@
 				43B888AF288931470034DFE3 /* Photo.swift in Sources */,
 				43B888B8288959E40034DFE3 /* RoverPhotoViewController.swift in Sources */,
 				43B888A928892BDF0034DFE3 /* Extensions.swift in Sources */,
+				43FAF063288C2B7900DB64C9 /* Main.xcdatamodeld in Sources */,
 				43B8889728892ABB0034DFE3 /* HomeViewController.swift in Sources */,
 				2ED94BBA288ADDA700A8B7D0 /* RoverTypeCell.swift in Sources */,
 				43B8889328892ABB0034DFE3 /* AppDelegate.swift in Sources */,
@@ -288,6 +295,7 @@
 				43B888AD288931290034DFE3 /* RoverPhotos.swift in Sources */,
 				43B8889528892ABB0034DFE3 /* SceneDelegate.swift in Sources */,
 				43B888A728892BCB0034DFE3 /* APICaller.swift in Sources */,
+				43FAF060288C2B5200DB64C9 /* DataController.swift in Sources */,
 				2ED94BBC288ADEB500A8B7D0 /* LocalFileManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -500,6 +508,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		43FAF061288C2B7900DB64C9 /* Main.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				43FAF062288C2B7900DB64C9 /* Main.xcdatamodel */,
+			);
+			currentVersion = 43FAF062288C2B7900DB64C9 /* Main.xcdatamodel */;
+			path = Main.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 43B8888728892ABB0034DFE3 /* Project object */;
 }

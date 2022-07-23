@@ -17,7 +17,7 @@ var window: UIWindow?
         window = UIWindow(frame: UIScreen.main.bounds)
 //        window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-        let navigationController = UINavigationController(rootViewController: HomeViewController())
+        let navigationController = UINavigationController(rootViewController: HomeViewController(dataController: DataController()))
         window?.rootViewController = navigationController
         return true
     }
