@@ -15,9 +15,9 @@ class HomeViewController: UIViewController{
 //  private let dataController : DataController
 
 
-  var curiosity: RoverPhoto?
-  var opportunity: RoverPhoto?
-  var spirit: RoverPhoto?
+  var curiosity: [Rover]?
+  var opportunity: [Rover]?
+  var spirit: [Rover]?
   static var photos = [Rover]()
 //  private var rover: Rover
 
@@ -60,6 +60,9 @@ class HomeViewController: UIViewController{
     fetchOpportunity()
     HomeViewController.photos = CoreDataManager.shared.fetchRovers()
     print(HomeViewController.photos.count)
+    curiosity = HomeViewController.photos.filter{$0.roverType == "Curiosity" }
+    opportunity = HomeViewController.photos.filter{ $0.roverType == "Opportunity"}
+    spirit = HomeViewController.photos.filter{$0.roverType == "Spirit"}
 
     roverTypeCV.delegate = self
     roverTypeCV.dataSource = self
@@ -84,7 +87,7 @@ class HomeViewController: UIViewController{
       DispatchQueue.main.async { [self] in
         switch result {
         case .success(let model):
-          self?.curiosity = model
+//          self?.curiosity = model
 
 
 
@@ -106,7 +109,10 @@ class HomeViewController: UIViewController{
       DispatchQueue.main.async { [self] in
         switch result {
         case .success(let model):
-          self?.spirit = model
+
+          self?.updateCoreData(photos: model, type: "Spirit")
+
+          CoreDataManager.shared.save()
 
         case .failure(let error):
           print("Parsing Error: \(error.localizedDescription)")
@@ -120,8 +126,10 @@ class HomeViewController: UIViewController{
       DispatchQueue.main.async { [self] in
         switch result {
         case .success(let model):
-          self?.opportunity = model
-          print(model.photos.count)
+          self?.updateCoreData(photos: model, type: "Opportunity")
+
+          CoreDataManager.shared.save()
+//          print(model.photos.count)
 
         case .failure(let error):
           print("Parsing Error: \(error.localizedDescription)")

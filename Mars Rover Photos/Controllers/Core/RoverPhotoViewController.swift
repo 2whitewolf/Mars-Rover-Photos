@@ -12,7 +12,7 @@ import SDWebImage
 class RoverPhotosViewController: UIViewController {
     
     
-  var roverPhoto: RoverPhoto?
+  var roverPhoto: [Rover]?
 
 
 
@@ -30,7 +30,7 @@ class RoverPhotosViewController: UIViewController {
     return collection
   }()
     
-    convenience init(photos: RoverPhoto,rootOption option: ScreenType){
+    convenience init(photos: [Rover],rootOption option: ScreenType){
         self.init()
         self.roverPhoto = photos
         self.collectionView.reloadData()
@@ -59,7 +59,7 @@ class RoverPhotosViewController: UIViewController {
 
 extension RoverPhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let curiosity = roverPhoto?.photos.prefix(100).count {
+      if let curiosity = roverPhoto?.count {
             return curiosity
         }
       return 0
@@ -70,8 +70,8 @@ extension RoverPhotosViewController: UICollectionViewDelegate, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        if let curiosity = roverPhoto?.photos[indexPath.row]{
-            cell.setup(with: RoverViewModel(roverId: curiosity.id, roverImg: curiosity.imgSrc, roverDate: curiosity.earthDate))
+      if let curiosity = roverPhoto?[indexPath.row]{
+          cell.setup(with: RoverViewModel(roverId: Int(curiosity.id), roverImg: curiosity.image ?? "", roverDate: curiosity.earthDate ?? ""))
         }
     return cell
     }
