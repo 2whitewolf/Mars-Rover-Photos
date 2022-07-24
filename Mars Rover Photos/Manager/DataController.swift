@@ -8,40 +8,68 @@
 import Foundation
 import CoreData
 
-final class DataController {
+class CoreDataManager {
 
-    let container: NSPersistentContainer
+    static let shared = CoreDataManager(modelName: "Main")
 
-    init() {
+    let persistentContainer: NSPersistentContainer
+    var viewContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
 
-        container = NSPersistentContainer(name: "Main")
+    init(modelName: String) {
+        persistentContainer = NSPersistentContainer(name: modelName)
+    }
 
-        container.loadPersistentStores(completionHandler: { description, error in
-
-            if let error = error {
-
-                fatalError("Core Data store failed to load with error: \(error)")
-
+    func load(completion: (() -> Void)? = nil) {
+        persistentContainer.loadPersistentStores {
+            (description, error) in
+            guard error == nil else {
+                fatalError(error!.localizedDescription)
             }
-
-        })
-
-    }
-
-    func save() {
-
-        if container.viewContext.hasChanges {
-
-            try? container.viewContext.save()
-
+            completion?()
         }
-
     }
 
-    func delete(_ rover: Rover) {
-
-        container.viewContext.delete(rover)
-
+    func createNote() -> Rover {
+        let rover = Rover(context: viewContext)
+        rover.id = 0
+        rover.earthDate = ""
+        rover.image = ""
+        rover.roverType = ""
+        save()
+        return rover
     }
 
+    // Saving notes to database
+    func save() {
+        if viewContext.hasChanges {
+            do {
+                try viewContext.save()
+            } catch {
+                print("Error occured while saving data: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func fetchRovers() -> [Rover] {
+        let request: NSFetchRequest<Rover> = Rover.fetchRequest()
+      let sortDescriptor = NSSortDescriptor(keyPath: \Rover.id, ascending: false)
+        request.sortDescriptors = [sortDescriptor]
+      
+
+        // filtering notes
+//        if let filter = filter {
+//            let pr1 = NSPredicate(format: "title contains[cd] %@", filter)
+//            let pr2 = NSPredicate(format: "text contains[cd] %@", filter)
+//            let predicate = NSCompoundPredicate(type: .or, subpredicates: [pr1, pr2])
+//            request.predicate = predicate
+//        }
+        return (try? viewContext.fetch(request)) ?? []
+    }
+
+    func deleteNote(_ rover: Rover) {
+        viewContext.delete(rover)
+        save()
+    }
 }

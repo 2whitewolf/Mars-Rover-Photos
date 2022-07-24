@@ -8,17 +8,18 @@
 import UIKit
 import CoreData
 //
-class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class HomeViewController: UIViewController{
 
-  private let listsController: NSFetchedResultsController<Rover>
-
-  private let dataController : DataController
+//  private let listsController: NSFetchedResultsController<Rover>
+//
+//  private let dataController : DataController
 
 
   var curiosity: RoverPhoto?
   var opportunity: RoverPhoto?
   var spirit: RoverPhoto?
-  private var rover: Rover
+  static var photos = [Rover]()
+//  private var rover: Rover
 
 
   private lazy var roverTypeCV: UICollectionView = {
@@ -45,49 +46,9 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate {
   }
 
 
-  private func updateCoreData(rovers: RoverPhoto, type: String) {
-    let photos = rovers.photos.prefix(100)
-    for i in photos {
-      rover.id = Int64(i.id)
-      rover.earthDate = i.earthDate
-      let image = load(url:i.imgSrc)
-      guard let data = image.jpegData(compressionQuality: 0.8) else { return }
-      rover.image = data
-      rover.roverType = type
-      dataController.save()
-    }
-  }
 
-  init(dataController: DataController) {
-    self.dataController = dataController
-    let newRover = Rover(context: dataController.container.viewContext)
-    rover = newRover
-    let request: NSFetchRequest<Rover> = Rover.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(keyPath: \Rover.id, ascending: false)]
 
-    listsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: dataController.container.viewContext, sectionNameKeyPath: nil, cacheName: nil)
 
-    super.init(nibName: nil, bundle: nil)
-
-    listsController.delegate = self
-    do {
-
-      try listsController.performFetch()
-
-    } catch {
-      print("Error")
-
-      //          presentFacesAlertOnMainThread(title: Strings.generalError, message: FacesError.unableToFetchFaces.rawValue, buttonTitle: Strings.ok)
-
-    }
-
-  }
-
-  required init?(coder: NSCoder) {
-
-    fatalError("init(coder:) has not been implemented")
-
-  }
 
 
 
@@ -97,9 +58,26 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate {
     fetchCuriosity()
     fetchSpirit()
     fetchOpportunity()
+    HomeViewController.photos = CoreDataManager.shared.fetchRovers()
+    print(HomeViewController.photos.count)
+
     roverTypeCV.delegate = self
     roverTypeCV.dataSource = self
     setupUI()
+  }
+
+
+  private func updateCoreData(photos: RoverPhoto, type: String) {
+    let rover = photos.photos.prefix(100)
+    for i in rover {
+      let newRover = CoreDataManager.shared.createNote()
+
+      newRover.roverType = type
+      newRover.id = Int64(i.id)
+      newRover.earthDate = i.earthDate
+      newRover.image = i.imgSrc
+      CoreDataManager.shared.save()
+    }
   }
   private func fetchCuriosity() {
     APICaller.shared.getCuriosityRovers{ [weak self] result in
@@ -107,8 +85,13 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate {
         switch result {
         case .success(let model):
           self?.curiosity = model
-          self?.updateCoreData(rovers: model, type: "Curiosity")
-          print("Count \(model.photos.count)")
+
+
+
+
+          self?.updateCoreData(photos: model, type: "Curiosity")
+
+          CoreDataManager.shared.save()
 
         case .failure(let error):
           print("Parsing Error: \(error.localizedDescription)")
@@ -184,17 +167,8 @@ extension HomeViewController:  UICollectionViewDelegate, UICollectionViewDataSou
 
 
 extension HomeViewController {
-//  func ifSaved() -> Bool {
-//    return false
-//  }
-//  func saveImages(photos : RoverPhoto) {
-//    if !ifSaved() {
-//      //            if let photos
-//      for i in photos.photos.prefix(100) {
-//
-//        LocalFileManager.shared.saveImage(image: self.load(url: i.imgSrc), name: "\(i.id)")
-//      }
-//    }
+//  func fetchNotesFromStorage() {
+//      HomeViewController.photos = CoreDataManager.shared.fetchNotes()
 //  }
 
   func load(url: String) -> UIImage {

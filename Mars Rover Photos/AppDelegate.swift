@@ -17,8 +17,10 @@ var window: UIWindow?
         window = UIWindow(frame: UIScreen.main.bounds)
 //        window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-        let navigationController = UINavigationController(rootViewController: HomeViewController(dataController: DataController()))
+        let navigationController = UINavigationController(rootViewController: HomeViewController())
         window?.rootViewController = navigationController
+      CoreDataManager.shared.load()
+
         return true
     }
 
